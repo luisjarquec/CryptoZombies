@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 
-import "./zombies/zombiefactory.sol";
+import "./zombiefactory.sol";
 
 abstract contract KittyInterface {
   function getKitty(uint256 _id) external virtual view returns (
