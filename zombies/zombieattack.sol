@@ -8,7 +8,7 @@ contract ZombieAttack is ZombieHelper {
     uint attackVictoryProbability = 70;
 
     function randMod(uint _modulus) internal returns(uint) {
-        randNonce++;
+        SafeMath.add(randNonce, 1);
         return uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randNonce))) % _modulus;
     }
 
@@ -17,14 +17,14 @@ contract ZombieAttack is ZombieHelper {
         Zombie storage enemyZombie = zombies[_targetId];
         uint rand = randMod(100);
         if(rand <= attackVictoryProbability) {
-            myZombie.winCount++;
-            myZombie.level++;
-            enemyZombie.lossCount++;
+            SafeMath.add(myZombie.winCount, 1);
+            SafeMath.add(myZombie.level, 1);
+            SafeMath.add(enemyZombie.lossCount, 1);
             feedAndMultiply(_zombieId, enemyZombie.dna, "zombies");
         }
         else{
-            myZombie.lossCount++;
-            enemyZombie.winCount++;
+            SafeMath.add(myZombie.lossCount, 1);
+            SafeMath.add(enemyZombie.winCount, 1);
             _triggerCooldown(myZombie);
         }
     }
